@@ -33,8 +33,8 @@ class Movies extends React.Component {
     this.setState({ currentPage: page });
   };
 
-  handleSelect = () => {
-    console.log("select");
+  handleSelect = (genreName) => {
+    this.setState({ currentGenre: genreName });
   };
 
   render() {
