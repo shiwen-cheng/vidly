@@ -19,9 +19,10 @@ class Movies extends React.Component {
 
   componentDidMount() {
     //   当所有组件渲染完成后调用
-    const genres = [{ name: "All Genres" }, ...getGenres()];
-
-    this.setState({ movies: getMovies(), genres });
+    this.setState({
+      movies: getMovies(),
+      genres: [{ _id: "", name: "All Genres" }, ...getGenres()],
+    });
   }
 
   handleDelete = (movie) => {
@@ -43,6 +44,10 @@ class Movies extends React.Component {
 
   handleGenreSelect = (genre) => {
     this.setState({ selectedGenre: genre, currentPage: 1 });
+  };
+
+  handleSort = (path) => {
+    console.log(path);
   };
 
   render() {
@@ -79,6 +84,7 @@ class Movies extends React.Component {
             movies={movies}
             onLike={this.handleLike}
             onDelete={this.handleDelete}
+            onSort={this.handleSort}
           />
           <Pagination
             itemsCount={filtered.length}
