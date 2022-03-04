@@ -6,13 +6,14 @@ import Pagination from "./common/pagination";
 import { paginate } from "../utils/paginate";
 import ListGroup from "./common/listGroup";
 import MoviesTable from "./moviesTable";
+import _ from "lodash";
 
 class Movies extends React.Component {
   // cc
   state = {
     movies: [], // 实际从服务器中获取数据需要一点时间，在这期间内，避免这两个是 undefined，否则会出现运行错误
     genre: [],
-    selectedGenre: null,
+    sortColumn: { path: "title", order: "asc" },
     currentPage: 1,
     pageSize: 4,
   };
@@ -46,8 +47,8 @@ class Movies extends React.Component {
     this.setState({ selectedGenre: genre, currentPage: 1 });
   };
 
-  handleSort = (path) => {
-    console.log(path);
+  handleSort = (sortColumn) => {
+    this.setState({ sortColumn });
   };
 
   render() {
@@ -58,16 +59,22 @@ class Movies extends React.Component {
       selectedGenre,
       pageSize,
       currentPage,
+      sortColumn,
     } = this.state;
 
+    if (count === 0) return <p>there is no movie.</p>;
+
+    // filter
     const filtered =
       selectedGenre && selectedGenre._id
         ? allMovies.filter((m) => m.genre._id == selectedGenre._id)
         : allMovies;
 
-    if (filtered.length === 0) return <p>there is no movie.</p>;
+    // sort
+    const sorted = _.orderBy(filtered, [sortColumn.path], [sortColumn.order]);
 
-    const movies = paginate(filtered, currentPage, pageSize);
+    // pagination
+    const movies = paginate(sorted, currentPage, pageSize);
 
     return (
       <div className="row">
@@ -82,9 +89,9 @@ class Movies extends React.Component {
           <p>showing {filtered.length} movies in the database.</p>
           <MoviesTable
             movies={movies}
+            sortColumn={sortColumn}
             onLike={this.handleLike}
             onDelete={this.handleDelete}
-            onSort={this.handleSort}
           />
           <Pagination
             itemsCount={filtered.length}
