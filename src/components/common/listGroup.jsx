@@ -2,30 +2,32 @@ import React, { Component } from "react";
 import { genres } from "../../services/fakeGenreService";
 
 const ListGroup = (props) => {
-  const { textProperty, valueProperty, onSelect, currentGenre } = props;
-  const items = [{ _id: "0", name: "All Genres" }, , ...props.items];
+  const { items, textProperty, valueProperty, onItemSelect, selectedItem } =
+    props;
 
-  console.log(currentGenre);
+  console.log(selectedItem);
 
   return (
     <ul className="list-group">
       {items.map((item) => (
         <li
           key={item[valueProperty]}
-          onClick={() => onSelect(item[textProperty])}
+          onClick={() => onItemSelect(item)}
           className={
-            item[textProperty] === currentGenre
-              ? "list-group-item active"
-              : "list-group-item"
+            item === selectedItem ? "list-group-item active" : "list-group-item"
           }
         >
-          {item.name}
+          {item[textProperty]}
         </li>
       ))}
     </ul>
   );
 };
 
-ListGroup.defaultProps = { textProperty: "name", valueProperty: "_id" };
+ListGroup.defaultProps = {
+  // 设置默认 props
+  textProperty: "name",
+  valueProperty: "_id",
+};
 
 export default ListGroup;
