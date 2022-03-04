@@ -2,24 +2,24 @@ import React, { Component } from "react";
 import { genres } from "../../services/fakeGenreService";
 
 const ListGroup = (props) => {
-  const { onSelect, currentGenre } = props;
-  const genres = [{ _id: "0", name: "All Genres" }, , ...props.genres];
+  const { textProperty, valueProperty, onSelect, currentGenre } = props;
+  const items = [{ _id: "0", name: "All Genres" }, , ...props.items];
 
   console.log(currentGenre);
 
   return (
     <ul className="list-group">
-      {genres.map((g) => (
+      {items.map((item) => (
         <li
-          key={g._id}
-          onClick={() => onSelect(g.name)}
+          key={item[valueProperty]}
+          onClick={() => onSelect(item[textProperty])}
           className={
-            g.name === currentGenre
+            item[textProperty] === currentGenre
               ? "list-group-item active"
               : "list-group-item"
           }
         >
-          {g.name}
+          {item.name}
         </li>
       ))}
     </ul>

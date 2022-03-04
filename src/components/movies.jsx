@@ -63,7 +63,9 @@ class Movies extends React.Component {
       <div className="row">
         <div className="col-3">
           <ListGroup
-            genres={genres}
+            items={genres}
+            textProperty="name"
+            valueProperty="_id"
             currentGenre={currentGenre}
             onItemSelect={this.handleGenreSelect}
           />
