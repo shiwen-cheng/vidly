@@ -19,7 +19,7 @@ class Movies extends React.Component {
 
   componentDidMount() {
     //   当所有组件渲染完成后调用
-    const genres = [{ name: "All Genres" }, , ...getGenres()];
+    const genres = [{ name: "All Genres" }, ...getGenres()];
 
     this.setState({ movies: getMovies(), genres });
   }

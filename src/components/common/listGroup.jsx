@@ -4,8 +4,7 @@ import { genres } from "../../services/fakeGenreService";
 const ListGroup = (props) => {
   const { items, textProperty, valueProperty, onItemSelect, selectedItem } =
     props;
-
-  console.log(selectedItem);
+  //   console.log(selectedItem);
 
   return (
     <ul className="list-group">
