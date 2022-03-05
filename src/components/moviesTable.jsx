@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import Like from "./common/like";
-import TableBody from "./common/tableBody";
-import TableHeader from "./common/tableHeader";
-
+import Table from "./common/table";
 class moviesTable extends Component {
   columns = [
     { path: "title", label: "Title" },
@@ -32,14 +30,12 @@ class moviesTable extends Component {
     const { movies, sortColumn, onSort } = this.props; // 注意在class中是this.props
 
     return (
-      <table className="table">
-        <TableHeader
-          columns={this.columns}
-          sortColumn={sortColumn}
-          onSort={onSort}
-        />
-        <TableBody data={movies} columns={this.columns} />
-      </table>
+      <Table
+        data={movies}
+        columns={this.columns}
+        sortColumn={sortColumn}
+        onSort={onSort}
+      />
     );
   }
 }
