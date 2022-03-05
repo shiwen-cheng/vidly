@@ -1,4 +1,4 @@
-import React, { Component } from "react"; // imrc
+import React, { Component } from "react";
 import { getMovies } from "../services/fakeMovieService";
 import { getGenres } from "../services/fakeGenreService";
 
@@ -9,7 +9,6 @@ import MoviesTable from "./moviesTable";
 import _ from "lodash";
 
 class Movies extends React.Component {
-  // cc
   state = {
     movies: [], // 实际从服务器中获取数据需要一点时间，在这期间内，避免这两个是 undefined，否则会出现运行错误
     genre: [],
@@ -64,16 +63,16 @@ class Movies extends React.Component {
 
     if (count === 0) return <p>there is no movie.</p>;
 
-    // filter
+    /* filter */
     const filtered =
       selectedGenre && selectedGenre._id
         ? allMovies.filter((m) => m.genre._id == selectedGenre._id)
         : allMovies;
 
-    // sort
+    /* sort */
     const sorted = _.orderBy(filtered, [sortColumn.path], [sortColumn.order]);
 
-    // pagination
+    /* pagination  */
     const movies = paginate(sorted, currentPage, pageSize);
 
     return (

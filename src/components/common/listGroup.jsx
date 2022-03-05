@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { genres } from "../../services/fakeGenreService";
 
 const ListGroup = (props) => {
-  const { items, textProperty, valueProperty, onItemSelect, selectedItem } =
+  const { items, selectedItem, onItemSelect, textProperty, valueProperty } =
     props;
   //   console.log(selectedItem);
 
@@ -24,8 +24,7 @@ const ListGroup = (props) => {
 };
 
 ListGroup.defaultProps = {
-  // 设置默认 props
-  textProperty: "name",
+  textProperty: "name", // 设置默认 props
   valueProperty: "_id",
 };
 

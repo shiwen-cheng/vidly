@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Like from "./common/like";
+import TableBody from "./common/tableBody";
 import TableHeader from "./common/tableHeader";
 
 class moviesTable extends Component {
@@ -8,12 +9,28 @@ class moviesTable extends Component {
     { path: "genre.name", label: "Genre" },
     { path: "numberInStock", label: "Stock" },
     { path: "dailyRentalRate", label: "Rate" },
-    { key: "like" },
-    { key: "delete" },
+    {
+      key: "like",
+      content: (m) => (
+        <Like onClick={() => this.props.onLike(m)} liked={m.liked} />
+      ),
+    },
+    {
+      key: "delete",
+      content: (m) => (
+        <button
+          onClick={() => this.props.onDelete(m)}
+          className="btn btn-danger btn-sm"
+        >
+          Delete
+        </button>
+      ),
+    },
   ];
 
   render() {
-    const { movies, onLike, onDelete, onSort, sortColumn } = this.props; // 注意在class中是this.props
+    const { movies, sortColumn, onSort } = this.props; // 注意在class中是this.props
+
     return (
       <table className="table">
         <TableHeader
@@ -21,29 +38,7 @@ class moviesTable extends Component {
           sortColumn={sortColumn}
           onSort={onSort}
         />
-        <tbody>
-          {movies.map((m) => (
-            <tr key={m._id}>
-              <td>{m.title}</td>
-              <td>{m.genre.name}</td>
-              <td>{m.numberInStock}</td>
-              <td>{m.dailyRentalRate}</td>
-              <td>
-                <Like onClick={() => onLike(m)} liked={m.liked} />
-                {/* 写在使用组件这个位置的属性，是传参
-                  写在构建组件位置的作用，才是发起事件 */}
-              </td>
-              <td>
-                <button
-                  onClick={() => onDelete(m)}
-                  className="btn btn-danger btn-sm"
-                >
-                  Delete
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
+        <TableBody data={movies} columns={this.columns} />
       </table>
     );
   }
