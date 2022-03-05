@@ -3,13 +3,13 @@ import React, { Component } from "react";
 // input: liked(boolean)
 // output: onclick
 
-const Like = (props) => {
+const Like = ({ liked, onClick }) => {
   let classes = "fa fa-heart";
-  if (!props.liked) classes += "-o";
+  if (!liked) classes += "-o";
   return (
     <div>
       <i
-        onClick={props.onClick}
+        onClick={onClick}
         style={{ cursor: "pointer" }}
         className={classes}
       ></i>

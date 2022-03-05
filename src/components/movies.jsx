@@ -50,18 +50,14 @@ class Movies extends React.Component {
     this.setState({ sortColumn });
   };
 
-  render() {
-    const { length: count } = this.state.movies;
+  getPageData = () => {
     const {
       movies: allMovies,
-      genres,
       selectedGenre,
       pageSize,
       currentPage,
       sortColumn,
     } = this.state;
-
-    if (count === 0) return <p>there is no movie.</p>;
 
     /* filter */
     const filtered =
@@ -75,6 +71,18 @@ class Movies extends React.Component {
     /* pagination  */
     const movies = paginate(sorted, currentPage, pageSize);
 
+    return { totalCount: filtered.length, data: movies };
+  };
+
+  render() {
+    const { length: count } = this.state.movies;
+    const { genres, selectedGenre, pageSize, currentPage, sortColumn } =
+      this.state;
+
+    if (count === 0) return <p>there is no movie.</p>;
+
+    const { totalCount, data: movies } = this.getPageData();
+
     return (
       <div className="row">
         <div className="col-3">
@@ -85,7 +93,7 @@ class Movies extends React.Component {
           />
         </div>
         <div className="col">
-          <p>showing {filtered.length} movies in the database.</p>
+          <p>showing {totalCount} movies in the database.</p>
           <MoviesTable
             movies={movies}
             sortColumn={sortColumn}
@@ -94,7 +102,7 @@ class Movies extends React.Component {
             onDelete={this.handleDelete}
           />
           <Pagination
-            itemsCount={filtered.length}
+            itemsCount={totalCount}
             pageSize={pageSize}
             currentPage={currentPage}
             onPageChange={this.handlePageChange}
