@@ -8,8 +8,8 @@ const Input = ({ name, label, error, ...rest }) => {
         // value={value}
         // onChange={onChange}
         // type={type}
-        // name={name}
         {...rest}
+        name={name}
         id={name}
         className="form-control"
       />
