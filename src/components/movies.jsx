@@ -8,7 +8,7 @@ import ListGroup from "./common/listGroup";
 import MoviesTable from "./moviesTable";
 import _ from "lodash";
 
-class Movies extends React.Component {
+class Movies extends Component {
   state = {
     movies: [], // 实际从服务器中获取数据需要一点时间，在这期间内，避免这两个是 undefined，否则会出现运行错误
     genre: [],
@@ -24,6 +24,9 @@ class Movies extends React.Component {
       genres: [{ _id: "", name: "All Genres" }, ...getGenres()],
     });
   }
+
+  handleNewMovie = () => {};
+  //   TODO:跳转到/movie/new
 
   handleDelete = (movie) => {
     const movies = this.state.movies.filter((m) => m._id !== movie._id);
@@ -62,7 +65,7 @@ class Movies extends React.Component {
     /* filter */
     const filtered =
       selectedGenre && selectedGenre._id
-        ? allMovies.filter((m) => m.genre._id == selectedGenre._id)
+        ? allMovies.filter((m) => m.genre._id === selectedGenre._id)
         : allMovies;
 
     /* sort */
@@ -93,7 +96,10 @@ class Movies extends React.Component {
           />
         </div>
         <div className="col">
-          <p>showing {totalCount} movies in the database.</p>
+          <button onClick={this.handleNewMovie} className="btn btn-primary">
+            New Movie
+          </button>
+          <p className="m-3">Showing {totalCount} movies in the database.</p>
           <MoviesTable
             movies={movies}
             sortColumn={sortColumn}

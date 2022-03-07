@@ -1,5 +1,4 @@
-import React, { Component } from "react";
-import { genres } from "../../services/fakeGenreService";
+import React from "react";
 
 const ListGroup = ({
   items,
