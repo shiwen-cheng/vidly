@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { getMovies } from "../services/fakeMovieService";
-import { getGenres } from "../services/fakeGenreService";
+// import { getGenres } from "../services/fakeGenreService";
+import { getGenres } from "../services/genreService";
 import { Input } from "./common/input";
 import Pagination from "./common/pagination";
 import ListGroup from "./common/listGroup";
@@ -21,11 +22,12 @@ class Movies extends Component {
     sortColumn: { path: "title", order: "asc" },
   };
 
-  componentDidMount() {
+  async componentDidMount() {
     //   当所有组件渲染完成后调用
+    let { data: genres } = await getGenres();
     this.setState({
       movies: getMovies(),
-      genres: [{ _id: "", name: "All Genres" }, ...getGenres()],
+      genres: [{ _id: "", name: "All Genres" }, ...genres],
     });
   }
 
