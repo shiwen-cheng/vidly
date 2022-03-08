@@ -1,8 +1,8 @@
 import http from "./httpService";
-import config from "../config.json";
+import { apiUrl } from "../config.json";
 import * as genresAPI from "./genreService";
 
-const apiEndpoint = `${config.apiEndpoint}/movies`;
+const apiEndpoint = `${apiUrl}/movies`;
 
 export function getMovies() {
   return http.get(apiEndpoint);
