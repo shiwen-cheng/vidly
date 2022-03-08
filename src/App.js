@@ -24,7 +24,7 @@ function App() {
           <Route path="/register" component={RegisterForm} />
           <Route path="/login" component={LoginForm} />
           <Route path="/movies/new" component={MoviesForm} />
-          <Route exact path="/movies/:id" component={MovieItem} />
+          <Route exact path="/movies/:id" component={MoviesForm} />
           <Route path="/movies" component={Movies} />
           <Route path="/customers" component={Customers} />
           <Route path="/rentals" component={Rentals} />
