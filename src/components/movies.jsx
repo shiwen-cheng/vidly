@@ -1,20 +1,24 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import { getMovies } from "../services/fakeMovieService";
 import { getGenres } from "../services/fakeGenreService";
-
+import { Input } from "./common/input";
 import Pagination from "./common/pagination";
-import { paginate } from "../utils/paginate";
 import ListGroup from "./common/listGroup";
+import SearchBox from "./common/searchBox";
 import MoviesTable from "./moviesTable";
+import { paginate } from "../utils/paginate";
 import _ from "lodash";
 
 class Movies extends Component {
   state = {
     movies: [], // 实际从服务器中获取数据需要一点时间，在这期间内，避免这两个是 undefined，否则会出现运行错误
     genre: [],
-    sortColumn: { path: "title", order: "asc" },
     currentPage: 1,
     pageSize: 4,
+    searchQuery: "",
+    selectedGenre: null,
+    sortColumn: { path: "title", order: "asc" },
   };
 
   componentDidMount() {
@@ -24,9 +28,6 @@ class Movies extends Component {
       genres: [{ _id: "", name: "All Genres" }, ...getGenres()],
     });
   }
-
-  handleNewMovie = () => {};
-  //   TODO:跳转到/movie/new
 
   handleDelete = (movie) => {
     const movies = this.state.movies.filter((m) => m._id !== movie._id);
@@ -46,7 +47,13 @@ class Movies extends Component {
   };
 
   handleGenreSelect = (genre) => {
-    this.setState({ selectedGenre: genre, currentPage: 1 });
+    this.setState({ selectedGenre: genre, searchQuery: "", currentPage: 1 });
+    // 对于受控组件不能用 null or undefined
+  };
+
+  handleSearch = (query) => {
+    //   query is a string
+    this.setState({ searchQuery: query, selectedGenre: null, currentPage: 1 });
   };
 
   handleSort = (sortColumn) => {
@@ -60,13 +67,17 @@ class Movies extends Component {
       pageSize,
       currentPage,
       sortColumn,
+      searchQuery,
     } = this.state;
 
     /* filter */
-    const filtered =
-      selectedGenre && selectedGenre._id
-        ? allMovies.filter((m) => m.genre._id === selectedGenre._id)
-        : allMovies;
+    let filtered = allMovies;
+    if (searchQuery)
+      filtered = allMovies.filter((m) =>
+        m.title.toLowerCase().startsWith(searchQuery.toLowerCase())
+      );
+    else if (selectedGenre && selectedGenre._id)
+      filtered = allMovies.filter((m) => m.genre._id === selectedGenre._id);
 
     /* sort */
     const sorted = _.orderBy(filtered, [sortColumn.path], [sortColumn.order]);
@@ -79,8 +90,14 @@ class Movies extends Component {
 
   render() {
     const { length: count } = this.state.movies;
-    const { genres, selectedGenre, pageSize, currentPage, sortColumn } =
-      this.state;
+    const {
+      genres,
+      selectedGenre,
+      pageSize,
+      currentPage,
+      sortColumn,
+      searchQuery,
+    } = this.state;
 
     if (count === 0) return <p>there is no movie.</p>;
 
@@ -96,10 +113,16 @@ class Movies extends Component {
           />
         </div>
         <div className="col">
-          <button onClick={this.handleNewMovie} className="btn btn-primary">
+          <Link
+            to="movies/new"
+            className="btn btn-primary"
+            style={{ marginBottom: 20 }}
+          >
             New Movie
-          </button>
+          </Link>
           <p className="m-3">Showing {totalCount} movies in the database.</p>
+          {/* TODO: search bar ,search by title 大小写不敏感 ，这里不用管分类 */}
+          <SearchBox value={searchQuery} onChange={this.handleSearch} />
           <MoviesTable
             movies={movies}
             sortColumn={sortColumn}
