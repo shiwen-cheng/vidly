@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { getMovies } from "../services/fakeMovieService";
+import { toast } from "react-toastify";
+// import { getMovies } from "../services/fakeMovieService";
+import { getMovies, deleteMovie } from "../services/movieService";
 // import { getGenres } from "../services/fakeGenreService";
 import { getGenres } from "../services/genreService";
 import { Input } from "./common/input";
@@ -24,16 +26,29 @@ class Movies extends Component {
 
   async componentDidMount() {
     //   当所有组件渲染完成后调用
-    let { data: genres } = await getGenres();
+    const { data: genres } = await getGenres();
+    const { data: movies } = await getMovies();
+
     this.setState({
-      movies: getMovies(),
+      movies,
       genres: [{ _id: "", name: "All Genres" }, ...genres],
     });
   }
 
-  handleDelete = (movie) => {
-    const movies = this.state.movies.filter((m) => m._id !== movie._id);
+  handleDelete = async (movie) => {
+    const originalMovies = this.state.movies;
+
+    const movies = originalMovies.filter((m) => m._id !== movie._id);
     this.setState({ movies }); // this.setState({ movies: movies });
+
+    try {
+      await deleteMovie(movie._id);
+    } catch (ex) {
+      if (ex.response && ex.response.status === 404)
+        toast.error("This movie has already been deleted.");
+
+      this.setState({ movies: originalMovies });
+    }
   };
 
   handleLike = (m) => {
