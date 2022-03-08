@@ -1,5 +1,7 @@
 import http from "./httpService";
-import { apiUrl } from "../config.json";
+import config from "../config.json";
+
+const { apiUrl } = config;
 
 export function getGenres() {
   return http.get(`${apiUrl}/genres`); // return a promise
