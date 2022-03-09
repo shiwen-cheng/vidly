@@ -26,7 +26,7 @@ class LoginForm extends Form {
       const { username, password } = this.state.data;
       const { data: jwt } = await login(username, password); //   call the server
       localStorage.setItem("token", jwt);
-      this.props.history.push("/");
+      this.props.history.push("/"); // return to home page，index.js 中有 BrowserRouter，其中所有组件的props中都有 history 属性
     } catch (ex) {
       if (ex.response && ex.response.status === 400) {
         const errors = { ...this.state.errors };
