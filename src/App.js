@@ -9,6 +9,7 @@ import Rentals from "./components/rentals";
 import NotFound from "./components/notFound";
 import NavBar from "./components/navBar";
 import LoginForm from "./components/loginForm";
+import Logout from "./components/common/logout";
 import RegisterForm from "./components/registerForm";
 import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
@@ -36,6 +37,7 @@ class App extends React.Component {
             {/* Route[path][component]*4 */}
             <Route path="/register" component={RegisterForm} />
             <Route path="/login" component={LoginForm} />
+            <Route path="/logout" component={Logout} />
             <Route path="/movies/:id" component={MovieForm} />
             <Route path="/movies" component={Movies} />
             <Route path="/customers" component={Customers} />
