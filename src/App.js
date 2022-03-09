@@ -24,7 +24,7 @@ class App extends React.Component {
   }
 
   render() {
-    const user = this.state;
+    const { user } = this.state;
 
     return (
       <React.Fragment>
