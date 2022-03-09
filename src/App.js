@@ -1,7 +1,6 @@
 import React from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
-import jwtDecode from "jwt-decode";
 import Movies from "./components/movies";
 import MovieForm from "./components/movieForm";
 import Customers from "./components/customers";
@@ -11,6 +10,7 @@ import NavBar from "./components/navBar";
 import LoginForm from "./components/loginForm";
 import Logout from "./components/common/logout";
 import RegisterForm from "./components/registerForm";
+import auth from "./services/authService";
 import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
 
@@ -18,13 +18,8 @@ class App extends React.Component {
   state = {};
 
   componentDidMount() {
-    try {
-      const jwt = localStorage.getItem("token");
-      const user = jwtDecode(jwt);
-      this.setState({ user });
-    } catch (ex) {
-      // 当未登录时（匿名用户状态）
-    }
+    const user = auth.getCurUser();
+    this.setState({ user });
   }
 
   render() {

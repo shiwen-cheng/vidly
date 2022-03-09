@@ -1,7 +1,7 @@
 import React from "react";
 import Joi from "joi-browser";
 import Form from "./common/form";
-import { login } from "../services/authService";
+import auth from "../services/authService";
 import { toast } from "react-toastify";
 class LoginForm extends Form {
   state = {
@@ -24,8 +24,8 @@ class LoginForm extends Form {
   doSubmit = async () => {
     try {
       const { username, password } = this.state.data;
-      const { data: jwt } = await login(username, password); //   call the server
-      localStorage.setItem("token", jwt);
+      await auth.login(username, password); //   call the server
+
       //   this.props.history.push("/"); // return to home page，index.js 中有 BrowserRouter，其中所有组件的props中都有 history 属性
       window.location = "/"; // 重载 App.js, 使其再运行一次 cdm
     } catch (ex) {

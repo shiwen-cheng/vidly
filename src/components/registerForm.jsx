@@ -1,7 +1,8 @@
 import React from "react";
 import Joi from "joi-browser";
 import Form from "./common/form";
-import * as userService from "../services/userService";
+import * as userService from "../services/userService"; // 其中每个函数单独导出
+import auth from "../services/authService"; // 其中export的是一个对象
 class RegisterForm extends Form {
   state = {
     data: { username: "", password: "", name: "" },
@@ -17,8 +18,7 @@ class RegisterForm extends Form {
   doSubmit = async () => {
     try {
       const response = await userService.register(this.state.data); //   call the server
-      console.log(response);
-      localStorage.setItem("token", response.headers["x-auth-token"]);
+      auth.loginWithJwt(response.headers["x-auth-token"]);
       //   this.props.history.push("/");
       window.location = "/";
     } catch (ex) {
