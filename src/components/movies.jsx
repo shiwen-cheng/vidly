@@ -1,15 +1,13 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
-// import { getMovies } from "../services/fakeMovieService";
-import { getMovies, deleteMovie } from "../services/movieService";
-// import { getGenres } from "../services/fakeGenreService";
-import { getGenres } from "../services/genreService";
 import { Input } from "./common/input";
-import Pagination from "./common/pagination";
-import ListGroup from "./common/listGroup";
-import SearchBox from "./common/searchBox";
 import MoviesTable from "./moviesTable";
+import ListGroup from "./common/listGroup";
+import Pagination from "./common/pagination";
+import SearchBox from "./common/searchBox";
+import { getMovies, deleteMovie } from "../services/movieService";
+import { getGenres } from "../services/genreService";
 import { paginate } from "../utils/paginate";
 import _ from "lodash";
 
@@ -131,7 +129,7 @@ class Movies extends Component {
         </div>
         <div className="col">
           <Link
-            to="movies/new"
+            to="/movies/new"
             className="btn btn-primary"
             style={{ marginBottom: 20 }}
           >

@@ -36,6 +36,7 @@ class Form extends Component {
     const errors = this.validate();
     this.setState({ errors: errors || {} }); // 如果 errors 是 truthy，就用errors，如果不是，就用空{}
     if (errors) return;
+
     this.doSubmit();
   };
 
@@ -51,30 +52,11 @@ class Form extends Component {
     this.setState({ data, errors });
   };
 
-  renderButton(label, onClick) {
+  renderButton(label) {
     return (
-      <button
-        disabled={this.validate()}
-        onClick={onClick}
-        className="btn btn-primary"
-      >
+      <button disabled={this.validate()} className="btn btn-primary">
         {label}
       </button>
-    );
-  }
-
-  renderInput(name, label, type = "text") {
-    const { data, errors } = this.state;
-
-    return (
-      <Input
-        type={type}
-        name={name}
-        label={label}
-        value={data[name]}
-        onChange={this.handleChange}
-        error={errors[name]}
-      ></Input>
     );
   }
 
@@ -90,6 +72,21 @@ class Form extends Component {
         onChange={this.handleChange}
         error={errors[name]}
       />
+    );
+  }
+
+  renderInput(name, label, type = "text") {
+    const { data, errors } = this.state;
+
+    return (
+      <Input
+        type={type}
+        name={name}
+        label={label}
+        value={data[name]}
+        onChange={this.handleChange}
+        error={errors[name]}
+      ></Input>
     );
   }
 }
