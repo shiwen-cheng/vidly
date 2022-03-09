@@ -114,6 +114,8 @@ class Movies extends Component {
       searchQuery,
     } = this.state;
 
+    const { user } = this.props;
+
     if (count === 0) return <p>there is no movie.</p>;
 
     const { totalCount, data: movies } = this.getPageData();
@@ -128,13 +130,15 @@ class Movies extends Component {
           />
         </div>
         <div className="col">
-          <Link
-            to="/movies/new"
-            className="btn btn-primary"
-            style={{ marginBottom: 20 }}
-          >
-            New Movie
-          </Link>
+          {user && (
+            <Link
+              to="/movies/new"
+              className="btn btn-primary"
+              style={{ marginBottom: 20 }}
+            >
+              New Movie
+            </Link>
+          )}
           <p className="m-3">Showing {totalCount} movies in the database.</p>
           {/* TODO: search bar ,search by title 大小写不敏感 ，这里不用管分类 */}
           <SearchBox value={searchQuery} onChange={this.handleSearch} />
