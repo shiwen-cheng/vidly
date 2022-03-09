@@ -21,6 +21,10 @@ export function logout() {
   localStorage.removeItem(tokenKey); // 删除 JWT
 }
 
+export function getJwt() {
+  return localStorage.getItem(tokenKey);
+}
+
 export function getCurUser() {
   try {
     const jwt = localStorage.getItem(tokenKey);
@@ -30,4 +34,4 @@ export function getCurUser() {
   }
 }
 
-export default { login, loginWithJwt, logout, getCurUser };
+export default { login, loginWithJwt, logout, getCurUser, getJwt };
