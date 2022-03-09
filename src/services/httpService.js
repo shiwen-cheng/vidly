@@ -1,9 +1,7 @@
 import axios from "axios";
 import logger from "./logService";
-import auth from "./authService";
-import { toast } from "react-toastify";
 
-axios.defaults.headers.common["x-auth-token"] = auth.getJwt(); // 配置所有类型的 http 请求 header
+import { toast } from "react-toastify";
 
 /* 全局错误处理
 拦截服务器响应，先被拦截，然后跳转到 catch */
@@ -23,10 +21,15 @@ axios.interceptors.response.use(null, (error) => {
   return Promise.reject(error); // 返回一个拒绝的promise对象
 });
 
+function setJwt(jwt) {
+  axios.defaults.headers.common["x-auth-token"] = jwt; // 配置所有类型的 http 请求 header
+}
+
 export default {
   get: axios.get,
   post: axios.post,
   put: axios.put,
   patch: axios.patch,
   delete: axios.delete,
+  setJwt,
 };
