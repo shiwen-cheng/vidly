@@ -1,8 +1,9 @@
 import React from "react";
+import { Redirect } from "react-router-dom";
 import Joi from "joi-browser";
+import { toast } from "react-toastify";
 import Form from "./common/form";
 import auth from "../services/authService";
-import { toast } from "react-toastify";
 class LoginForm extends Form {
   state = {
     data: { username: "", password: "" },
@@ -27,7 +28,9 @@ class LoginForm extends Form {
       await auth.login(username, password); //   call the server
 
       //   this.props.history.push("/"); // return to home page，index.js 中有 BrowserRouter，其中所有组件的props中都有 history 属性
-      window.location = "/"; // 重载 App.js, 使其再运行一次 cdm
+      const { state } = this.props.location;
+      window.location = state ? state.from.pathname : "/"; // 如果用户是从别的url重定向到这里，那么（state是一个location obj，其中from.pathname记录了之前的url）跳转回之前的 url，否则重载 App.js, 使其再运行一次 cdm
+      //   window.location --- 只在用户尝试登录的时候，用其重载应用
     } catch (ex) {
       if (ex.response && ex.response.status === 400) {
         const errors = { ...this.state.errors };
@@ -41,6 +44,8 @@ class LoginForm extends Form {
   };
 
   render() {
+    if (auth.getCurUser()) return <Redirect to="/" />;
+
     return (
       <div>
         <h1>Login</h1>

@@ -29,7 +29,8 @@ export function getJwt() {
 
 export function getCurUser() {
   try {
-    const jwt = localStorage.getItem(tokenKey);
+    const jwt = getJwt();
+    // console.log(jwtDecode(jwt));
     return jwtDecode(jwt);
   } catch (ex) {
     return null; // 当未登录时（匿名用户状态），没有当前用户
