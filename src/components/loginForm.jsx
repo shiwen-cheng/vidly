@@ -26,7 +26,8 @@ class LoginForm extends Form {
       const { username, password } = this.state.data;
       const { data: jwt } = await login(username, password); //   call the server
       localStorage.setItem("token", jwt);
-      this.props.history.push("/"); // return to home page，index.js 中有 BrowserRouter，其中所有组件的props中都有 history 属性
+      //   this.props.history.push("/"); // return to home page，index.js 中有 BrowserRouter，其中所有组件的props中都有 history 属性
+      window.location = "/"; // 重载 App.js, 使其再运行一次 cdm
     } catch (ex) {
       if (ex.response && ex.response.status === 400) {
         const errors = { ...this.state.errors };

@@ -1,7 +1,7 @@
 import React from "react";
 import { NavLink, Link } from "react-router-dom";
 
-const NavBar = (props) => {
+const NavBar = ({ user }) => {
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
       <Link className="navbar-brand" to="/">
@@ -29,12 +29,28 @@ const NavBar = (props) => {
           <NavLink className="nav-link nav-item" to="/rentals">
             Rentals
           </NavLink>
-          <NavLink className="nav-link nav-item" to="/login">
-            Login
-          </NavLink>
-          <NavLink className="nav-link nav-item" to="/register">
-            Register
-          </NavLink>
+          {!user && (
+            <React.Fragment>
+              <NavLink className="nav-link nav-item" to="/login">
+                Login
+              </NavLink>
+              <NavLink className="nav-link nav-item" to="/register">
+                Register
+              </NavLink>
+            </React.Fragment>
+          )}
+          {/* 如果没有user（如果是匿名用户），则渲染这两个组件 */}
+          {user && (
+            <React.Fragment>
+              <NavLink className="nav-link nav-item" to="/profile">
+                {user.name}
+              </NavLink>
+              <NavLink className="nav-link nav-item" to="/logout">
+                Logout
+              </NavLink>
+            </React.Fragment>
+          )}
+          {/* 如果有user，则渲染另外两个组件 */}
         </div>
       </div>
     </nav>
